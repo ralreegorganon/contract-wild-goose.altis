@@ -1,0 +1,30 @@
+#include "VAS\menu.hpp"
+#include "=BTC=_revive\=BTC=_respawn.h"
+
+Respawn = 3;
+RespawnDelay = 4;
+
+class CfgFunctions
+{
+	#include "VAS\cfgfunctions.hpp"
+	class JEJ
+	{
+		class buildings
+		{
+			class numberPositionsInBuilding {};
+		};
+	};
+};
+
+class Header
+{
+	gameType = Coop; 
+	minPlayers = 1; 
+	maxPlayers = 3; 
+};
+
+enableDebugConsole = 1;
+author = "Jason Jones";
+OnLoadName = "Contract: Wild Goose";
+OnLoadMission = "A team of mercenaries takes a contract to capture and extract a high value target.";
+loadScreen = "images\loadscreen.paa"; 
