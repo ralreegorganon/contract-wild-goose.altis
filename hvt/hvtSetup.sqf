@@ -10,36 +10,36 @@ if (isServer) then {
 	[hvt, _building] execVM "hvt\hvtPatrolBuilding.sqf";
 
 	// Building garrison
-	_grp = [getmarkerpos "hvt_garrison_spawn_1", EAST, (configfile >> "CfgGroups" >> "East" >> "OPF_F" >> "Infantry" >> "OIA_InfSquad")] call BIS_fnc_spawnGroup;
+	_grp = [getmarkerpos "hvt_garrison_spawn_1", EAST, (configfile >> "CfgGroups" >> "East" >> "OPF_F" >> "Infantry" >> "OIA_InfSquad"),[],[],[0.1,0.1]] call BIS_fnc_spawnGroup;
 	_leader = leader _grp;
 	[_leader, 50, true, [60,4], true, true] execVM "garrison_script\Garrison_script.sqf";
 
 	sleep 5;
 
-	GarrisonGroup2 = [getmarkerpos "hvt_garrison_spawn_2", EAST, (configfile >> "CfgGroups" >> "East" >> "OPF_F" >> "Infantry" >> "OIA_InfSquad")] call BIS_fnc_spawnGroup;
+	GarrisonGroup2 = [getmarkerpos "hvt_garrison_spawn_2", EAST, (configfile >> "CfgGroups" >> "East" >> "OPF_F" >> "Infantry" >> "OIA_InfSquad"),[],[],[0.1,0.1]] call BIS_fnc_spawnGroup;
 	_leader = leader GarrisonGroup2;
 	[_leader, 50, false, [60,4], true, true] execVM "garrison_script\Garrison_script.sqf";
 
 	sleep 5;
 
-	GarrisonGroup3 = [getmarkerpos "hvt_garrison_spawn_3", EAST, (configfile >> "CfgGroups" >> "East" >> "OPF_F" >> "Infantry" >> "OIA_InfSquad")] call BIS_fnc_spawnGroup;
+	GarrisonGroup3 = [getmarkerpos "hvt_garrison_spawn_3", EAST, (configfile >> "CfgGroups" >> "East" >> "OPF_F" >> "Infantry" >> "OIA_InfSquad"),[],[],[0.1,0.1]] call BIS_fnc_spawnGroup;
 	_leader = leader GarrisonGroup3;
 	[_leader, 50, false, [60,4], true, true] execVM "garrison_script\Garrison_script.sqf";
 
 	// Patrols
-	_grp = [getmarkerpos "hvt_ups_spawn_1", EAST, (configfile >> "CfgGroups" >> "East" >> "OPF_F" >> "Infantry" >> "OIA_InfSentry")] call BIS_fnc_spawnGroup;
+	_grp = [getmarkerpos "hvt_ups_spawn_1", EAST, (configfile >> "CfgGroups" >> "East" >> "OPF_F" >> "Infantry" >> "OIA_InfSentry"),[],[],[0.1,0.1]] call BIS_fnc_spawnGroup;
 	_leader = leader _grp;
 	[_leader, "hvt_ups_patrols_1"] execVM "ups\ups.sqf";
 
-	_grp = [getmarkerpos "hvt_ups_spawn_2", EAST, (configfile >> "CfgGroups" >> "East" >> "OPF_F" >> "Infantry" >> "OIA_InfSentry")] call BIS_fnc_spawnGroup;
+	_grp = [getmarkerpos "hvt_ups_spawn_2", EAST, (configfile >> "CfgGroups" >> "East" >> "OPF_F" >> "Infantry" >> "OIA_InfSentry"),[],[],[0.1,0.1]] call BIS_fnc_spawnGroup;
 	_leader = leader _grp;
 	[_leader, "hvt_ups_patrols_1"] execVM "ups\ups.sqf";
 
-	_grp = [getmarkerpos "hvt_ups_spawn_3", EAST, (configfile >> "CfgGroups" >> "East" >> "OPF_F" >> "Infantry" >> "OIA_InfSentry")] call BIS_fnc_spawnGroup;
+	_grp = [getmarkerpos "hvt_ups_spawn_3", EAST, (configfile >> "CfgGroups" >> "East" >> "OPF_F" >> "Infantry" >> "OIA_InfSentry"),[],[],[0.1,0.1]] call BIS_fnc_spawnGroup;
 	_leader = leader _grp;
 	[_leader, "hvt_ups_patrols_1"] execVM "ups\ups.sqf";
 
-	_grp = [getmarkerpos "hvt_ups_spawn_4", EAST, (configfile >> "CfgGroups" >> "East" >> "OPF_F" >> "Infantry" >> "OIA_InfSentry")] call BIS_fnc_spawnGroup;
+	_grp = [getmarkerpos "hvt_ups_spawn_4", EAST, (configfile >> "CfgGroups" >> "East" >> "OPF_F" >> "Infantry" >> "OIA_InfSentry"),[],[],[0.1,0.1]] call BIS_fnc_spawnGroup;
 	_leader = leader _grp;
 	[_leader, "hvt_ups_patrols_1"] execVM "ups\ups.sqf";
 };

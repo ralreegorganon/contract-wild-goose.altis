@@ -167,7 +167,7 @@ class Mission
 	};
 	class Vehicles
 	{
-		items=36;
+		items=39;
 		class Item0
 		{
 			position[]={4220.8911,5.5117111,16853.023};
@@ -521,6 +521,32 @@ class Mission
 			id=41;
 			side="EMPTY";
 			vehicle="C_Offroad_01_F";
+			skill=0.60000002;
+		};
+		class Item36
+		{
+			position[]={7126.0928,145.98541,16631.227};
+			azimut=-43.847591;
+			id=42;
+			side="EMPTY";
+			vehicle="Box_IND_Ammo_F";
+			skill=0.60000002;
+		};
+		class Item37
+		{
+			position[]={7126.4126,145.84157,16630.264};
+			azimut=-39.73275;
+			id=43;
+			side="EMPTY";
+			vehicle="Box_East_Ammo_F";
+			skill=0.60000002;
+		};
+		class Item38
+		{
+			position[]={7126.5508,145.66705,16629.109};
+			id=44;
+			side="EMPTY";
+			vehicle="Box_NATO_Ammo_F";
 			skill=0.60000002;
 		};
 	};
