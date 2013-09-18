@@ -1,7 +1,7 @@
 #include "VAS\menu.hpp"
 #include "=BTC=_revive\=BTC=_respawn.h"
 
-Respawn = 3;
+Respawn = 0;
 RespawnDelay = 4;
 
 class CfgFunctions
@@ -25,6 +25,10 @@ class Header
 
 enableDebugConsole = 1;
 author = "Jason Jones";
+onLoadIntroTime = false;
+onLoadMissionTime = false;
 OnLoadName = "Contract: Wild Goose";
 OnLoadMission = "A team of mercenaries takes a contract to capture and extract a high value target.";
-loadScreen = "images\loadscreen.paa"; 
+loadScreen = "images\contract_wild_goose.jpg"; 
+overviewText = "A team of mercenaries takes a contract to capture and extract a high value target.";
+overviewPicture = "images\contract_wild_goose.jpg";

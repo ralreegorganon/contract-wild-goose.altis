@@ -44,4 +44,6 @@ if (isServer)
 	_leader = leader _grp;
 	[_leader, "hvt_ups_patrols_1"] execVM "ups\ups.sqf";
 }
+
+waitUntil { !isNil("hvt") }
 hvt addAction ["Capture","hvt\hvtCapture.sqf", hvt]; 
