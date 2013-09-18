@@ -26,7 +26,6 @@ _unit addmagazine "200Rnd_65x39_cased_Box_Tracer";
 
 _unit addWeapon 'LMG_Mk200_F';
 _unit addPrimaryWeaponItem 'optic_Arco';
-_unit addPrimaryWeaponItem 'acc_pointer_IR';
 _unit addPrimaryWeaponItem "muzzle_snds_H_MG";
 
 _unit addmagazine "9Rnd_45ACP_Mag";

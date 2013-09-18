@@ -1,5 +1,4 @@
-if (isServer) 
-{
+if (isServer) then {
 	createCenter civilian;
 	_group = createGroup Civilian;
 	_building = ((getMarkerPos "hvt_loc_1") nearestObject "Land_i_Barracks_V2_F");
@@ -43,7 +42,7 @@ if (isServer)
 	_grp = [getmarkerpos "hvt_ups_spawn_4", EAST, (configfile >> "CfgGroups" >> "East" >> "OPF_F" >> "Infantry" >> "OIA_InfSentry")] call BIS_fnc_spawnGroup;
 	_leader = leader _grp;
 	[_leader, "hvt_ups_patrols_1"] execVM "ups\ups.sqf";
-}
+};
 
-waitUntil { !isNil("hvt") }
+waitUntil { !(isNil "hvt")};
 hvt addAction ["Capture","hvt\hvtCapture.sqf", hvt]; 

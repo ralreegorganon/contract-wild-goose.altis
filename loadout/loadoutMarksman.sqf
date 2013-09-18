@@ -30,7 +30,6 @@ _unit addmagazine "20Rnd_762x51_Mag";
 
 _unit addWeapon 'srifle_EBR_F';
 _unit addPrimaryWeaponItem 'optic_Arco';
-_unit addPrimaryWeaponItem 'acc_pointer_IR';
 _unit addPrimaryWeaponItem "muzzle_snds_B";
 
 _unit addmagazine "9Rnd_45ACP_Mag";

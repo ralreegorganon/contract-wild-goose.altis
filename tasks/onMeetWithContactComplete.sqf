@@ -1,8 +1,5 @@
 ["taskMeetWithContact", "succeeded"] call FHQ_TT_setTaskState;
 
-execVM "hvt\hvtSetup.sqf";
-execVM "communications\communicationsSetup.sqf";
-
 contact sidechat "Here's the situation...";
 sleep 3;
 contact sidechat "The High Value Target is located in an industrial complex about 1km to the east of here.";
@@ -11,6 +8,7 @@ contact sidechat "The complex looks pretty well protected. Last recon pass estim
 sleep 8;
 contact sidechat "Check your intel for the latest photo we have of the HVT. Remember, the objective is to capture him alive.";
 sleep 8;
+execVM "hvt\hvtSetup.sqf";
 [PlayerGroup,
 	["taskCaptureHVT", 
 	"The High Value Target is located in an industrial complex to the east of Negades. He must be captured alive.",
@@ -47,6 +45,7 @@ sleep 8;
 contact sidechat "It looks like all of the communications from the industrial complex are being relayed through that facility.";
 sleep 8;
 contact sidechat "If you take it out, it'll ensure a communications blackout.";
+execVM "communications\communicationsSetup.sqf";
 [PlayerGroup,
 	["taskDestroyCommunicationsTower", 
 	"Communications from the complex are relayed through the comm towers to the south. Destroy them to create a distraction and ensure a blackout.",

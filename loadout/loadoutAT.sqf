@@ -40,7 +40,6 @@ _unit addmagazine "1Rnd_HE_Grenade_shell";
 
 _unit addWeapon 'arifle_Mk20_GL_plain_F';
 _unit addPrimaryWeaponItem 'optic_Arco';
-_unit addPrimaryWeaponItem 'acc_pointer_IR';
 _unit addPrimaryWeaponItem "muzzle_snds_M";
 
 _unit addmagazine "9Rnd_45ACP_Mag";
@@ -56,6 +55,7 @@ _unit addmagazine "handgrenade";
 
 _unit addWeapon 'launch_NLAW_F';
 
+_unit addmagazine "NLAW_F";
 _unit addmagazine "NLAW_F";
 _unit addmagazine "NLAW_F";
 
