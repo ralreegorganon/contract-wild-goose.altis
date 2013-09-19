@@ -1,3 +1,8 @@
+titleText ["Contract: Wild Goose", "BLACK IN", 8];
+playmusic "music1";
+
+sleep 5;
+
 [
     PlayerGroup,                                                          
       ["taskDriveToContact", "Meet with your contact in Negades for information as to the HVT's location",  "Drive to Negades", "Negades", getMarkerPos "markerNegades", "created"]

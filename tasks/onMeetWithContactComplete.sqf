@@ -7,7 +7,7 @@ sleep 8;
 contact sidechat "The complex looks pretty well protected. Last recon pass estimated two full squads of OPFOR.";
 sleep 8;
 contact sidechat "Check your intel for the latest photo we have of the HVT. Remember, the objective is to capture him alive.";
-sleep 8;
+sleep 2;
 execVM "hvt\hvtSetup.sqf";
 [PlayerGroup,
 	["taskCaptureHVT", 
