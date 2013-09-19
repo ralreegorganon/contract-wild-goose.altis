@@ -1,7 +1,7 @@
 ["taskGetToDocks", "succeeded"] call FHQ_TT_setTaskState;
 [PlayerGroup,
 	["taskExtractHVT", 
-	"Bring the HVT offsore for extraction.",
+	"Bring the HVT offsore for extraction. The whole team must be present.",
 	"Extract", 
 	"EXTRACT", 
 	getMarkerPos "marker_target_extract", 

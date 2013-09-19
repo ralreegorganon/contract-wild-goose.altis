@@ -121,7 +121,7 @@ class Mission
 					leader=1;
 					skill=0.60000002;
 					text="contact";
-					init="this setgroupId [""Contact""]";
+					init="this setgroupId [""Contact""]; this allowDamage false;";
 				};
 			};
 		};
@@ -160,7 +160,7 @@ class Mission
 					leader=1;
 					skill=0.60000002;
 					text="armsdealer";
-					init="this setgroupId [""Arms Dealer""]";
+					init="this setgroupId [""Arms Dealer""]; this allowDamage false;";
 				};
 			};
 		};
@@ -171,12 +171,13 @@ class Mission
 		class Item0
 		{
 			position[]={4220.8911,5.5117111,16853.023};
-			azimut=602.63129;
+			azimut=602.63098;
 			id=6;
 			side="EMPTY";
 			vehicle="C_Offroad_01_F";
 			leader=1;
 			skill=0.60000002;
+			init="nul = [this] execVM ""loadout\loadoutTruck.sqf"";";
 		};
 		class Item1
 		{
@@ -712,8 +713,8 @@ class Mission
 			type="Empty";
 			colorName="ColorGreen";
 			fillName="DiagGrid";
-			a=180;
-			b=20;
+			a=140;
+			b=30;
 			angle=-45;
 		};
 		class Item22
@@ -920,10 +921,11 @@ class Mission
 		};
 		class Item5
 		{
-			position[]={3300.436,0.098133318,13466.666};
-			a=200;
-			b=20;
+			position[]={3305.5762,-0.00036881911,13471.196};
+			a=140;
+			b=30;
 			angle=-45;
+			rectangular=1;
 			activationBy="GROUP";
 			interruptable=1;
 			type="END1";
