@@ -78,7 +78,7 @@ class Mission
 					leader=1;
 					rank="SERGEANT";
 					skill=1;
-					init="PlayerGroup = group this; nul = [this] execVM ""loadout\loadoutMarksman.sqf""; ";
+					init="PlayerGroup = group this; nul = [this] execVM ""mission\players\horatio.sqf""; ";
 				};
 				class Item1
 				{
@@ -89,7 +89,7 @@ class Mission
 					vehicle="B_soldier_AR_F";
 					player="PLAY CDG";
 					skill=1;
-					init="PlayerGroup = group this; nul = [this] execVM ""loadout\loadoutMG.sqf"";";
+					init="PlayerGroup = group this; nul = [this] execVM ""mission\players\derp.sqf"";";
 				};
 				class Item2
 				{
@@ -100,7 +100,7 @@ class Mission
 					vehicle="B_soldier_LAT_F";
 					player="PLAY CDG";
 					skill=1;
-					init="PlayerGroup = group this; nul = [this] execVM ""loadout\loadoutAT.sqf"";";
+					init="PlayerGroup = group this; nul = [this] execVM ""mission\players\igor.sqf"";";
 				};
 			};
 		};
@@ -177,7 +177,7 @@ class Mission
 			vehicle="C_Offroad_01_F";
 			leader=1;
 			skill=0.60000002;
-			init="nul = [this] execVM ""loadout\loadoutTruck.sqf"";";
+			init="nul = [this] execVM ""mission\loadouts\truck.sqf"";";
 		};
 		class Item1
 		{
@@ -857,7 +857,7 @@ class Mission
 			interruptable=1;
 			age="UNKNOWN";
 			idVehicle=0;
-			expActiv="nul = [] execVM ""tasks\onMeetWithContactComplete.sqf"";";
+			expActiv="nul = [] execVM ""mission\tasks\meetContact\complete.sqf"";";
 			class Effects
 			{
 			};
@@ -871,7 +871,7 @@ class Mission
 			interruptable=1;
 			age="UNKNOWN";
 			idVehicle=0;
-			expActiv="nul = [] execVM ""tasks\onDriveToContactComplete.sqf"";";
+			expActiv="nul = [] execVM ""mission\tasks\driveToContact\complete.sqf"";";
 			class Effects
 			{
 			};
@@ -884,7 +884,7 @@ class Mission
 			interruptable=1;
 			age="UNKNOWN";
 			expCond="(!alive CommTower1) && (!alive CommTower2);";
-			expActiv="nul = [] execVM ""tasks\onDestroyCommunicationsTowerComplete.sqf"";";
+			expActiv="nul = [] execVM ""mission\tasks\destroyCommunications\complete.sqf"";";
 			class Effects
 			{
 			};
@@ -899,7 +899,7 @@ class Mission
 			age="UNKNOWN";
 			idVehicle=0;
 			expCond="this && ([""taskCaptureHVT""] call FHQ_TT_isTaskSuccessful);";
-			expActiv="nul = [] execVM ""tasks\onGetToDocksComplete.sqf"";";
+			expActiv="nul = [] execVM ""mission\tasks\getToDocks\complete.sqf"";";
 			class Effects
 			{
 			};
@@ -914,7 +914,7 @@ class Mission
 			age="UNKNOWN";
 			idVehicle=0;
 			expCond="this && ([""taskCaptureHVT""] call FHQ_TT_isTaskSuccessful);";
-			expActiv="nul = [] execVM ""tasks\onGetToDocksComplete.sqf"";";
+			expActiv="nul = [] execVM ""mission\tasks\getToDocks\complete.sqf"";";
 			class Effects
 			{
 			};
@@ -946,7 +946,7 @@ class Mission
 			interruptable=1;
 			age="UNKNOWN";
 			idVehicle=0;
-			expActiv="nul = [] execVM ""tasks\onSecureTransportationComplete.sqf"";";
+			expActiv="nul = [] execVM ""mission\tasks\secureTransportation\complete.sqf"";";
 			class Effects
 			{
 			};

@@ -1,1 +1,0 @@
-[] execVM "a3\functions_f\Debug\fn_camera.sqf";

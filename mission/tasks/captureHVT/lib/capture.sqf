@@ -8,4 +8,4 @@ _target removeAction _id;
 _target setCaptive true;
 _target 
 
-execVM "tasks\onCaptureHVTComplete.sqf";
+execVM "mission\tasks\captureHVT\complete.sqf";
