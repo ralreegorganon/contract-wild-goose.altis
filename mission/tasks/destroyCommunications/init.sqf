@@ -1,2 +1,2 @@
-execvm "mission\tasks\outpost\spawn.sqf";
-execvm "mission\tasks\outpost\task.sqf";
+execvm "mission\tasks\destroyCommunications\spawn.sqf";
+execvm "mission\tasks\destroyCommunications\task.sqf";

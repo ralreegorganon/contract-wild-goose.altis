@@ -1,11 +1,11 @@
-["taskMeetWithContact", "succeeded"] call FHQ_TT_setTaskState;
+["taskMeetContact", "succeeded"] call FHQ_TT_setTaskState;
 
 contact sidechat "Here's the situation...";
 sleep 3;
 
 contact sidechat "The High Value Target is located in an industrial complex about 1km to the east of here.";
 sleep 8;
-contact sidechat "The complex looks pretty well protected. Last recon pass estimated two full squads of OPFOR.";
+contact sidechat "The complex looks pretty well protected. Last recon pass estimated two full squads guarding the HVT.";
 sleep 8;
 contact sidechat "Check your intel for the latest photo we have of the HVT. Remember, the objective is to capture him alive.";
 execVM "mission\tasks\captureHVT\init.sqf";
@@ -15,7 +15,10 @@ contact sidechat "Extraction is by boat from the Kavala docks--we have people wa
 execVM "mission\tasks\getToDocks\init.sqf";
 sleep 8;
 
-contact sidechat "I've got a friend just north of Kore who can help with transportation to Kavala.";
+contact sidechat "Getting to to Kavala may be problematic--AAF forces set up road blocks along the highway after your last contract, and are unlikely to be happy to see you again.";
+sleep 8;
+
+contact sidechat "However, I've got a friend just north of Kore who can help with transportation to Kavala.";
 execVM "mission\tasks\secureTransportation\init.sqf";
 sleep 8;
 
