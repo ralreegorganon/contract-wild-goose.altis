@@ -1,3 +1,5 @@
+["taskDestroyCommunicationsTower", "succeeded"] call FHQ_TT_setTaskState;
+
 if (!isServer) exitWith {};
 
 {deleteVehicle _x} forEach units GarrisonGroup2;

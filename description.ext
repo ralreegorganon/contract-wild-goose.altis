@@ -9,7 +9,7 @@ class CfgFunctions
 	{
 		class buildings
 		{
-			class numberPositionsInBuilding {};
+			class numberPositionsInBuilding {file = "mission\functions\buildings\fn_numberPositionsInBuilding.sqf"};
 		};
 	};
 };
@@ -26,16 +26,16 @@ class CfgMusic
 	tracks[]={};
 	class music1
 	{ 
-		name = ""; sound[] = {\music\greek.ogg, db+0, 1.0};
+		name = ""; sound[] = {\mission\music\greek.ogg, db+0, 1.0};
 	};
 };
 
 enableDebugConsole = 1;
-author = "Jason Jones";
+author = "ralreegorganon";
 onLoadIntroTime = false;
 onLoadMissionTime = false;
 OnLoadName = "Contract: Wild Goose";
 OnLoadMission = "A team of mercenaries takes a contract to capture and extract a high value target.";
-loadScreen = "images\contract_wild_goose.jpg"; 
 overviewText = "A team of mercenaries takes a contract to capture and extract a high value target.";
-overviewPicture = "images\contract_wild_goose.jpg";
+overviewPicture = "mission\images\contract_wild_goose.jpg";
+loadScreen = "mission\images\contract_wild_goose.jpg"; 

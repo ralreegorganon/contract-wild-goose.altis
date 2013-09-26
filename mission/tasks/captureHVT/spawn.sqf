@@ -7,7 +7,7 @@ if (isServer) then {
 	hvt setBehaviour "CARELESS";
 	hvt disableAI "FSM"; 
 	hvt allowDamage false;
-	[hvt, _building] execVM "hvt\hvtPatrolBuilding.sqf";
+	[hvt, _building] execVM "mission\tasks\captureHVT\lib\patrolBuilding.sqf";
 
 	// Building garrison
 	_grp = [getmarkerpos "hvt_garrison_spawn_1", EAST, (configfile >> "CfgGroups" >> "East" >> "OPF_F" >> "Infantry" >> "OIA_InfSquad"),[],[],[0.1,0.1]] call BIS_fnc_spawnGroup;
@@ -45,4 +45,4 @@ if (isServer) then {
 };
 
 waitUntil { !(isNil "hvt")};
-hvt addAction ["Capture","hvt\hvtCapture.sqf", hvt]; 
+hvt addAction ["Capture","mission\tasks\captureHVT\lib\capture.sqf", hvt]; 
