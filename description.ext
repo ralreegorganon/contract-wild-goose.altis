@@ -1,5 +1,3 @@
-#include "=BTC=_revive\=BTC=_respawn.h"
-
 Respawn = 0;
 RespawnDelay = 4;
 
