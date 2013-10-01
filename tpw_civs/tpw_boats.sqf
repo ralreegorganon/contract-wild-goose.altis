@@ -1,8 +1,8 @@
 /* 
 AMBIENT CIVILIAN BOAT SCRIPT - SP/MP CLIENT COMPATIBLE
 Author: tpw 
-Date: 20130914
-Version: 1.12
+Date: 20130922
+Version: 1.15
 
 	- This script will gradually spawn civilian boats, up to a maximum specified, onto the ocean within a specified radius of the player.
 	- Boats will then move around, with a specified number of waypoints.
@@ -13,42 +13,39 @@ Disclaimer: Feel free to use and modify this code, on the proviso that you post 
 
 To use: 
 1 - Save this script into your mission directory as eg tpw_boats.sqf
-2 - Call it with 0 = [1,5,1000,15,2] execvm "tpw_boats.sqf"; where 1= start hint, 5 = start delay, 1000 = radius, 15 = number of waypoints, 2 = max boats
+2 - Call it with 0 = [5,1000,15,2] execvm "tpw_boats.sqf"; where 5 = start delay, 1000 = radius, 15 = number of waypoints, 2 = max boats
 
 THIS SCRIPT WON'T RUN ON DEDICATED SERVERS
 */
 
 if (isDedicated) exitWith {};
-if (count _this < 5) exitwith {hint "TPW CARS incorrect/no config, exiting."};
-if (_this select 4 == 0) exitwith {};
+if (count _this < 4) exitwith {hint "TPW CARS incorrect/no config, exiting."};
+if (_this select 3 == 0) exitwith {};
 if !(isnil "tpw_boat_active") exitwith {hint "TPW BOATS already running."};
 WaitUntil {!isNull FindDisplay 46};
 
 // READ IN VARIABLES
-tpw_boat_hint = _this select 0;
-tpw_boat_sleep = _this select 1;
-tpw_boat_radius = _this select 2;
-tpw_boat_waypoints = _this select 3;
-tpw_boat_num = _this select 4;
+tpw_boat_sleep = _this select 0;
+tpw_boat_radius = _this select 1;
+tpw_boat_waypoints = _this select 2;
+tpw_boat_num = _this select 3;
 
 // DEFAULT VALUES IF MP
 if (isMultiplayer) then 
 	{
-	tpw_boat_hint =0;
 	tpw_boat_sleep = 5;
 	tpw_boat_radius = 1000;
 	tpw_boat_waypoints = 15;
 	tpw_boat_num =2;
 	};
 
-tpw_boat_version = 1.12; // Version string
+tpw_boat_version = 1.15; // Version string
 tpw_boat_active = true; // Global enable/disable
 tpw_boat_debug = false; // Debugging
 tpw_boat_boatarray = []; // Player's array of boats
 tpw_boat_mindist = 200; // Don't remove boats closer than this
 tpw_boat_slowdist = 100; // Boats slow down when this close 
-tpw_boat_spawnradius = tpw_boat_radius / 2; // Boats will spwn this far from player
-
+tpw_boat_spawnradius = tpw_boat_radius / 2; // Boats will spawn this far from player
 
 _boatlist = [
 "C_Boat_Civil_01_F",
@@ -88,8 +85,6 @@ _clothes = [
 "U_C_Poloshirt_tricolour",
 "U_C_Poor_1",
 "U_C_Poor_2",
-"U_C_WorkerCoveralls",
-"U_IG_Guerilla1_1",
 "U_IG_Guerilla2_2",
 "U_IG_Guerilla2_3",
 "U_IG_Guerilla3_1",
@@ -97,31 +92,8 @@ _clothes = [
 "U_NikosBody",
 "U_Rangemaster"];
 
-// HINT
-if (tpw_boat_hint == 1) then
-	{
-	0 = [] spawn 
-		{
-		private ["_hint","_hintsleep"];
-		_hintsleep = 0;
-		_hint = "<t color='#cc9900'>TPW mods active:</t> ";
-		if !(isnil "tpw_air_version") then {_hintsleep = _hintsleep + 1;_hint = format ["%1<br/>AIR %2",_hint,tpw_air_version]};		
-		if !(isnil "tpw_animal_version") then {_hintsleep = _hintsleep + 1;_hint = format ["%1<br/>ANIMALS %2",_hint,tpw_animal_version]};
-		if !(isnil "tpw_bleedout_version") then {_hintsleep = _hintsleep + 1;_hint = format ["%1<br/>BLEEDOUT %2",_hint,tpw_bleedout_version]};
-		if !(isnil "tpw_boat_version") then {_hintsleep = _hintsleep + 1;_hint = format ["%1<br/>BOATS %2",_hint,tpw_boat_version]};
-		if !(isnil "tpw_car_version") then {_hintsleep = _hintsleep + 1;_hint = format ["%1<br/>CARS %2",_hint,tpw_car_version]};
-		if !(isnil "tpw_civ_version") then {_hintsleep = _hintsleep + 1;_hint = format ["%1<br/>CIVS %2",_hint,tpw_civ_version]};
-		if !(isnil "tpw_ebs_version") then {_hintsleep = _hintsleep + 1;_hint = format ["%1<br/>EBS %2",_hint,tpw_ebs_version]};
-		if !(isnil "tpw_fall_version") then {_hintsleep = _hintsleep + 1;_hint = format ["%1<br/>FALL %2",_hint,tpw_fall_version]};
-		if !(isnil "tpw_fog_version") then {_hintsleep = _hintsleep + 1;_hint = format ["%1<br/>FOG %2",_hint,tpw_fog_version]};
-		if !(isnil "tpw_houselights_version") then {_hintsleep = _hintsleep + 1;_hint = format ["%1<br/>HOUSELIGHTS %2",_hint,tpw_houselights_version]};
-		if !(isnil "tpwlos_version") then {_hint = format ["%1<br/>LOS %2",_hint,tpwlos_version]};
-		sleep 10;
-		hintsilent parsetext format ["<t size = '0.9'> %1</t>",_hint];
-		sleep _hintsleep;
-		hintsilent "";
-		};	
-	};
+// DELAY
+sleep tpw_boat_sleep;
 
 // CREATE AI CENTRE
 _centerC = createCenter civilian;
@@ -237,10 +209,6 @@ tpw_boat_fnc_waypoints =
 		};
 	[_grp, (tpw_boat_waypoints - 1)] setWaypointType "CYCLE";
 	};
-	
-//[] call tpw_boat_fnc_nearboat;	
-
-
 
 // MAIN LOOP - ADD AND REMOVE BOATS AS NECESSARY, CHECK IF OTHER PLAYERS HAVE DIED (MP)
 while {true} do 
@@ -252,9 +220,9 @@ while {true} do
 
 		// Debugging	
 		if (tpw_boat_debug) then {hintsilent format ["boats: %1",count tpw_boat_boatarray]};
-
-		// Add boats
-		if (count tpw_boat_boatarray < tpw_boat_num) then
+		
+		// Add boats if daytime
+		if (count tpw_boat_boatarray < tpw_boat_num  && {daytime > 5 && daytime < 20}) then 
 			{
 			0 = [] call tpw_boat_fnc_nearboat;
 			};

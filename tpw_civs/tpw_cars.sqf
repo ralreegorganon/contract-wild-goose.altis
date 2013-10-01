@@ -1,43 +1,43 @@
 /* 
 AMBIENT CIVILIAN TRAFFIC SCRIPT - SP/MP CLIENT COMPATIBLE
 Author: tpw 
-Date: 20130914
-Version: 1.12
+Date: 20130925
+Version: 1.17
 
 	- This script will gradually spawn civilian traffic, up to a maximum specified, onto roads within a specified radius of the player.
 	- Cars will then drive, with a specified number of waypoints.
-	- If a civilian driver is killed  or car damaged another will spawn.
+	- If a civilian driver is killed or car damaged another will spawn.
 	- Cars are removed if more than the specified radius from the player.
 	- Cars will not spawn if player is within a specified radius of an exclusion object (up to 10 objects)
+	- Cars may be commandeered
+	- Cars spawn with random fuel levels
 
 Disclaimer: Feel free to use and modify this code, on the proviso that you post back changes and improvements so that everyone can benefit from them, and acknowledge the original author (tpw) in any derivative works.     
 
 To use: 
 1 - Save this script into your mission directory as eg tpw_cars.sqf
-2 - Call it with 0 = [1,5,1000,15,2] execvm "tpw_cars.sqf"; where 1= start hint, 5 = start delay, 1000 = radius, 15 = number of waypoints, 2 = max cars
+2 - Call it with 0 = [5,1000,15,2] execvm "tpw_cars.sqf"; where 5 = start delay, 1000 = radius, 15 = number of waypoints, 2 = max cars
 
 THIS SCRIPT WON'T RUN ON DEDICATED SERVERS
 */
 
 if (isDedicated) exitWith {};
-if (count _this < 5) exitwith {hint "TPW CARS incorrect/no config, exiting."};
-if (_this select 4 == 0) exitwith {};
+if (count _this < 4) exitwith {hint "TPW CARS incorrect/no config, exiting."};
+if (_this select 3 == 0) exitwith {};
 if !(isnil "tpw_car_active") exitwith {hint "TPW CARS already running."};
 WaitUntil {!isNull FindDisplay 46};
 
 private ["_civlist","_clothes","_houses","_carlist","_sqname","_centerC"];
 
 // READ IN VARIABLES
-tpw_car_hint = _this select 0;
-tpw_car_sleep = _this select 1;
-tpw_car_radius = _this select 2;
-tpw_car_waypoints = _this select 3;
-tpw_car_num = _this select 4;
+tpw_car_sleep = _this select 0;
+tpw_car_radius = _this select 1;
+tpw_car_waypoints = _this select 2;
+tpw_car_num = _this select 3;
 
 // DEFAULT VALUES IF MP
 if (isMultiplayer) then 
 	{
-	tpw_car_hint =0;
 	tpw_car_sleep = 5;
 	tpw_car_radius = 1000;
 	tpw_car_waypoints = 15;
@@ -75,7 +75,6 @@ _carlist = [
 "C_Quadbike_01_F",
 "C_SUV_01_F"
 ]; 
-
 _clothes = [
 "U_Competitor",
 "U_C_HunterBody_grn",
@@ -87,8 +86,6 @@ _clothes = [
 "U_C_Poloshirt_tricolour",
 "U_C_Poor_1",
 "U_C_Poor_2",
-"U_C_WorkerCoveralls",
-"U_IG_Guerilla1_1",
 "U_IG_Guerilla2_2",
 "U_IG_Guerilla2_3",
 "U_IG_Guerilla3_1",
@@ -106,112 +103,123 @@ tpw_car_mindist = 100; // Car won't be removed if closer than this to player
 tpw_car_slowdist = 150; // Car will slow down if this close to the player
 tpw_car_spawndist = 250; // Cars will be spawned further than this distance from player
 tpw_car_active = true; // Global activate/deactivate
-tpw_car_version = 1.12; // Version string
+tpw_car_version = 1.17; // Version string
 
-// HINT
-if (tpw_car_hint == 1) then
-	{
-	0 = [] spawn 
-		{
-		private ["_hint","_hintsleep"];
-		_hintsleep = 0;
-		_hint = "<t color='#cc9900'>TPW mods active:</t> ";
-		if !(isnil "tpw_air_version") then {_hintsleep = _hintsleep + 1;_hint = format ["%1<br/>AIR %2",_hint,tpw_air_version]};		
-		if !(isnil "tpw_animal_version") then {_hintsleep = _hintsleep + 1;_hint = format ["%1<br/>ANIMALS %2",_hint,tpw_animal_version]};
-		if !(isnil "tpw_bleedout_version") then {_hintsleep = _hintsleep + 1;_hint = format ["%1<br/>BLEEDOUT %2",_hint,tpw_bleedout_version]};
-		if !(isnil "tpw_boat_version") then {_hintsleep = _hintsleep + 1;_hint = format ["%1<br/>BOATS %2",_hint,tpw_boat_version]};
-		if !(isnil "tpw_car_version") then {_hintsleep = _hintsleep + 1;_hint = format ["%1<br/>CARS %2",_hint,tpw_car_version]};
-		if !(isnil "tpw_civ_version") then {_hintsleep = _hintsleep + 1;_hint = format ["%1<br/>CIVS %2",_hint,tpw_civ_version]};
-		if !(isnil "tpw_ebs_version") then {_hintsleep = _hintsleep + 1;_hint = format ["%1<br/>EBS %2",_hint,tpw_ebs_version]};
-		if !(isnil "tpw_fall_version") then {_hintsleep = _hintsleep + 1;_hint = format ["%1<br/>FALL %2",_hint,tpw_fall_version]};
-		if !(isnil "tpw_fog_version") then {_hintsleep = _hintsleep + 1;_hint = format ["%1<br/>FOG %2",_hint,tpw_fog_version]};
-		if !(isnil "tpw_houselights_version") then {_hintsleep = _hintsleep + 1;_hint = format ["%1<br/>HOUSELIGHTS %2",_hint,tpw_houselights_version]};
-		if !(isnil "tpwlos_version") then {_hint = format ["%1<br/>LOS %2",_hint,tpwlos_version]};
-		sleep 10;
-		hintsilent parsetext format ["<t size = '0.9'> %1</t>",_hint];
-		sleep _hintsleep;
-		hintsilent "";
-		};	
-	};
-	
+// DELAY	
 sleep tpw_car_sleep;	
 
 // CREATE AI CENTRE
 _centerC = createCenter civilian;
 
+// DELETE CAR OCCUPANTS AND WAYPOINTS
+tpw_car_fnc_delete =
+	{
+	private ["_grp"];
+	_grp = _this select 0;
+	// Remove waypoints
+	while {(count (waypoints _grp)) > 0} do
+		{
+		deleteWaypoint ((waypoints _grp) select 0);
+		};
+	
+	// Delete occupants
+		{
+		deletevehicle _x;
+		} foreach units _grp;	
+
+	// Delete occupant group		
+	deletegroup _grp;
+	};
+
 // WAYPOINTS 
 tpw_car_fnc_waypoint = 
 	{
 	private ["_grp","_road","_wp"];
-	//Pick random position within random house
+	//Pick random road
 	_grp = _this select 0;
 	_road = tpw_car_roadlist select (floor (random (count tpw_car_roadlist)));
 	_wp = getposasl _road; 
 	_grp addWaypoint [_wp, 0];
 	};
 
-
 // SPAWN CIV/CAR INTO EMPTY GROUP
 tpw_car_fnc_carspawn =
 	{
-	private ["_civ","_car","_roadseg","_spawnpos","_spawndir","_i","_ct","_sqname"];
+	private ["_civtype","_driver","_car","_roadseg","_spawnpos","_spawndir","_i","_ct","_sqname"];
 
-	// Pick a random road segment to spawn car and civ
+	// Pick a random road segment to spawn car
 	[] call tpw_car_fnc_roadpos;
 	if (count tpw_car_roadlist < 100) exitwith {};
 	_roadseg = tpw_car_farroads select (floor (random (count tpw_car_farroads)));
 	_spawnpos = getposasl _roadseg;
 	_spawndir = getdir _roadseg;
-	_civ = _civlist select (floor (random (count _civlist)));
 	_car = _carlist select (floor (random (count _carlist)));
-
 	 _sqname = creategroup civilian;
 	_spawncar = _car createVehicle _spawnpos;
 	_spawncar setdir _spawndir; 
-	_civ createunit [_spawnpos,_sqname,"this moveindriver _spawncar;this setbehaviour 'CARELESS'"];  
-
-	// Random clothes
-	removeUniform (leader _sqname);
-	(leader _sqname) addUniform (_clothes select  (floor (random (count _clothes)))); 
-
-	//Mark it as owned by this player
+	_spawncar setfuel random 0.5;
+	
+	//Driver
+	_civtype = _civlist select (floor (random (count _civlist)));
+	_driver = _sqname createUnit [_civtype,_spawnpos, [], 0, "FORM"]; 
+	_driver moveindriver _spawncar;
+	_driver setbehaviour "CARELESS";	
+	removeUniform _driver;
+	_driver addUniform (_clothes select  (floor (random (count _clothes)))); 
+	_driver addeventhandler ["Hit",{_this call tpw_civ_fnc_casualty}];
+	_driver addeventhandler ["Killed",{_this call tpw_civ_fnc_casualty}];
+	
+	//Passenger
+	if (random 10 < 5) then 
+		{
+		_civtype = _civlist select (floor (random (count _civlist)));
+		_passenger = _sqname createUnit [_civtype,_spawnpos, [], 0, "FORM"]; 
+		_passenger moveincargo _spawncar;
+		_passenger setbehaviour "CARELESS";	
+		removeUniform _passenger;
+		_passenger addUniform (_clothes select  (floor (random (count _clothes)))); 
+		_passenger addeventhandler ["Hit",{_this call tpw_civ_fnc_casualty}];
+		_passenger addeventhandler ["Killed",{_this call tpw_civ_fnc_casualty}];
+		};
+	
+	//Set variables 
 	_spawncar setvariable ["tpw_car_owner", [player],true];
-
-	//Mark car's driver
-	_spawncar setvariable ["tpw_car_driver",(leader _sqname),true];
-
-	//Add killed/hit eventhandlers to driver
-	(leader _sqname) addeventhandler ["Hit",{_this call tpw_civ_fnc_casualty}];
-	(leader _sqname) addeventhandler ["Killed",{_this call tpw_civ_fnc_casualty}];
+	_spawncar setvariable ["tpw_car_occupants",_sqname,true];
 
 	//Add ability to commandeer car
 	_spawncar addaction 
-		["Commandeer Vehicle",
-		{
-		private ["_car","_driver"];
-		// Driver exits vehicle
-		_car = _this select 0;
-		_driver = _car getvariable 'tpw_car_driver';
-		moveout _driver;
-		
-		// Player gets in
-		player action ["getInDriver", _car]; 
-		
-		// Remove car from player's car array (it can no longer be despawned)
-		tpw_car_cararray = tpw_car_cararray - [_this select 0];
-		
-		//Delete driver and his waypoint once > 100m away
-		waituntil 
-			{sleep 10;
-			_driver distance player > 100
-			};
-		while {(count (waypoints( group _driver))) > 0} do
+		[
+		"Commandeer Vehicle",
+			{
+			private ["_car","_grp"];
+			_car = _this select 0;
+			_grp = _car getvariable "tpw_car_occupants";
+			
+			// Occupants out of car	
 				{
-				
-				deleteWaypoint ((waypoints (group _driver)) select 0);
+				unassignvehicle _x;
+				} foreach units _grp;
+			
+			// Delete occupants if far enough away
+			[_grp] spawn 
+				{
+				private ["_grp","_unit"];
+				_grp = _this select 0;
+				_unit = (units _grp) select 0;
+				waituntil
+					{
+					sleep 2;
+					(_unit distance player > 100);
+					};
+				[_grp] call tpw_car_fnc_delete;	
 				};
-		deletevehicle _driver;
-		}
+			
+			// Remove menu item
+			_car removeaction 0;
+		
+			// Remove car from player's car array (it can no longer be despawned)
+			tpw_car_cararray = tpw_car_cararray - [_this select 0];
+			}
 		];
 
 	//Add car to the array of spawned cars
@@ -258,7 +266,7 @@ tpw_car_fnc_nearcar =
 		[] call tpw_car_fnc_carspawn;    
 		};
 	};        
-
+	
 // POOL OF ROAD POSTIONS NEAR PLAYER
 tpw_car_fnc_roadpos = 
 	{ 
@@ -303,7 +311,7 @@ while {true} do
 	{
 	if (tpw_car_active) then
 		{
-		private ["_driver","_cararray","_deadplayer","_group"];
+		private ["_cararray","_deadplayer","_grp","_center","_group","_logic","_driver","_near"];
 		tpw_car_removearray = [];
 
 		// Debugging	
@@ -326,6 +334,26 @@ while {true} do
 			};
 
 			{
+			// Beep horn if near others
+			_driver = driver _x;
+			_near = (position _x) nearEntities [["man"], 10];
+			if (count _near > 0 && {alive _driver} && {_driver distance _x < 2} && {damage _x < 0.2}) then
+				{
+				_center = createCenter sideLogic;
+				_group = createGroup _center;
+				_logic = _group createUnit ["LOGIC", [0,0,0], [], 0, "NONE"];
+				_logic action ["useWeapon",_x,_driver,0];
+				deleteCenter _center;
+				deleteVehicle _logic;
+				deleteGroup _group;
+				};
+			
+			// Remove commandeer menu from damaged cars or those with dead drivers
+			if (damage _x > 0.2 || !(alive _driver)) then
+				{
+				_x removeaction 0;	
+				};
+				
 			// Slow down near player
 			if (_x distance player < tpw_car_slowdist) then 
 				{
@@ -338,6 +366,7 @@ while {true} do
 			if (
 			_x distance vehicle player > tpw_car_radius || //car out of range
 			(speed _x < 1 && (_x getvariable ["tpw_car_lastspeed",500]) < 1) || // car hasn't moved
+			(count (_x nearroads 50) == 0) || // car too far from a road 
 			(damage _x > 0.2 && damage _x < 1) // car damaged, but not destroyed
 			) then
 				{
@@ -354,19 +383,12 @@ while {true} do
 					};
 				};
 
-			// Delete the car, driver and waypoints if it's not owned by anyone    
+			// Delete the car, occupants and waypoints if it's not owned by anyone    
 			if (count (_x getvariable ["tpw_car_owner",[]]) == 0) then    
 				{
-				_driver = _x getvariable "tpw_car_driver";
-				while {(count (waypoints( group _driver))) > 0} do
-					{
-					deleteWaypoint ((waypoints (group _driver)) select 0);
-					};
-				_group = (group _driver);
-				moveout _driver; 
-				deletevehicle _driver;
+				_grp = _x getvariable "tpw_car_occupants";
+				[_grp] call tpw_car_fnc_delete;
 				deletevehicle _x;
-				deletegroup _group;
 				};
 			_x setvariable ["tpw_car_lastspeed",(speed _x)];	
 			} foreach tpw_car_cararray;    

@@ -9,6 +9,11 @@ class CfgFunctions
 		{
 			class numberPositionsInBuilding {file = "mission\functions\buildings\fn_numberPositionsInBuilding.sqf"};
 		};
+
+		class text
+		{
+			class printText {file = "mission\functions\text\fn_printText.sqf"};
+		};
 	};
 };
 
